@@ -42,24 +42,28 @@ Documentation for %{name}.
 
 %prep
 %{?scl:scl enable %{scl} - << \EOF}
+set -ex
 gem unpack %{SOURCE0}
 %{?scl:EOF}
 
 %setup -q -D -T -n  %{gem_name}-%{version}
 
 %{?scl:scl enable %{scl} - << \EOF}
+set -ex
 gem spec %{SOURCE0} -l --ruby > %{gem_name}.gemspec
 %{?scl:EOF}
 
 %build
 # Create the gem as gem install only works on a gem file
 %{?scl:scl enable %{scl} - << \EOF}
+set -ex
 gem build %{gem_name}.gemspec
 %{?scl:EOF}
 
 # %%gem_install compiles any C extensions and installs the gem into ./%%gem_dir
 # by default, so that we can move it into the buildroot in %%install
 %{?scl:scl enable %{scl} - << \EOF}
+set -ex
 %gem_install
 %{?scl:EOF}
 
